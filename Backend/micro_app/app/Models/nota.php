@@ -10,6 +10,6 @@ class Nota extends Model
 {
     use HasFactory;
     protected $table = 'notas';
-    protected $primaryKey = 'codEstudiante';
+    protected $primaryKey = 'id';
     public $timestamps = false;
 }

@@ -12,4 +12,9 @@ class Estudiante extends Model
     protected $table = 'estudiantes';
     protected $primaryKey = 'cod';
     public $timestamps = false;
+    
+    public function notas()
+    {
+        return $this->hasMany(Nota::class, 'codEstudiante', 'cod');
+    }
 }

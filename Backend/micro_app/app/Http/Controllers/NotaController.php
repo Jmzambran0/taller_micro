@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class NotaController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -16,6 +17,13 @@ class NotaController extends Controller
         $rows = Nota::all();
         $data = ["data" => $rows];
         return response()->json($data, 200);
+    }
+
+
+    public function notasPorEstudiante(string $codEstudiante)
+    {
+        $notas = Nota::where('codEstudiante', $codEstudiante)->get();
+        return response()->json(['data' => $notas], 200);
     }
 
     /**
@@ -77,4 +85,5 @@ class NotaController extends Controller
         $data = ["data" => "nota del estudiante eliminado"];
         return response()->json($data, 200);
     }
+    
 }

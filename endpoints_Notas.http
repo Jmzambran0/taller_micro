@@ -8,12 +8,12 @@ Content-Type: 'application/json'
 {
     "actividad": "prueba cuatro",
     "nota": "5.0",
-    "codEstudiante": "5678"
+    "codEstudiante": "100"
 }
 
 
-### Consultar un contacto por id
-GET http://127.0.0.1:8000/api/appNota/nota/5678
+### Consultar un estudiante con todas las notas
+GET http://127.0.0.1:8000/api/notas/estudiante/1234
 
 ### Actualizar una nota del estudiante
 PUT http://127.0.0.1:8000/api/appNota/nota/1

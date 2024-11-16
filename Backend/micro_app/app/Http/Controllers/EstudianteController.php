@@ -76,4 +76,16 @@ class EstudianteController extends Controller
         $data = ["data" => "estudiante eliminado"];
         return response()->json($data, 200);
     }
+
+    public function destroyAll(string $cod)
+    {
+        $row = Estudiante::find($cod);
+        if (empty($row)) {
+            return response()->json(['msg' => "error"], 404);
+        }
+        $row->notas()->delete();
+        $row->delete();
+        $data = ["data" => "Estudiante y sus notas eliminado"];
+        return response()->json($data, 200);
+            }
 }
