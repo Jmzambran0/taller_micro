@@ -1,0 +1,32 @@
+### Consultar todos los Estudiantes
+GET http://127.0.0.1:8000/api/appEstudiante/estudiantes
+
+### Crear un nota de estudiante
+POST http://127.0.0.1:8000/api/appEstudiante/estudiante
+Content-Type: 'application/json'
+
+{
+    "cod": "100",
+    "nombres": "Santiagsso",
+    "email": "santiago@gmail.com"
+}
+
+
+### Consultar un Estudiantes
+GET http://127.0.0.1:8000/api/appEstudiante/estudiante/100
+
+### Actualizar a un Estudiantes
+PUT http://127.0.0.1:8000/api/appEstudiante/estudiante/100
+Content-Type: "application/json"
+
+{
+    "nombres": "fabi",
+    "email": "fabi@gmail.com"
+}
+
+### Eliminar estudiante
+DELETE http://127.0.0.1:8000/api/appEstudiante/estudiante/100
+
+### Eliminar estudiante con sus notas
+DELETE http://127.0.0.1:8000/api/appEstudiante/estudiante/100/con-notas
+

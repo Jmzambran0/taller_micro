@@ -1,0 +1,28 @@
+### Consultar todos las notas
+GET http://127.0.0.1:8000/api/appNota/notas
+
+### Crear un nota de estudiante
+POST http://127.0.0.1:8000/api/appNota/nota
+Content-Type: 'application/json'
+
+{
+    "actividad": "prueba cuatro",
+    "nota": "5.0",
+    "codEstudiante": "700"
+}
+
+
+### Consultar un estudiante con todas las notas
+GET http://127.0.0.1:8000/api/notas/estudiante/700
+
+### Actualizar una nota del estudiante
+PUT http://127.0.0.1:8000/api/appNota/nota/20
+Content-Type: application/json
+
+{
+    "actividad": "prueba tres",
+    "nota": "3.50"
+}
+
+### Eliminar nota del estudiante
+DELETE http://127.0.0.1:8000/api/appNota/nota/19
