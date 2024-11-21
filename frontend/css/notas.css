@@ -1,0 +1,50 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #E0E0E0;
+}
+
+/* --- Botones */
+
+.btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 0 5px;
+    font-size: 18px;
+  }
+  
+  .btn-eliminar {
+    color: red;
+  }
+  
+  .btn-modificar {
+    color: blue;
+  }
+  
+  .btn-agregar {
+    color: green;
+  }
+  
+  .btn:hover {
+    opacity: 0.7;
+  }
+
+  /* --- Color de nota */
+
+  .nota-color1 {
+    color: red;
+  }
+
+  .nota-color2 {
+    color: rgb(219, 117, 0);
+  }
+
+  .nota-color3 {
+    color: rgb(0, 0, 0);
+  }
+
+  .nota-color4 {
+    color: rgb(0, 182, 9);
+  }

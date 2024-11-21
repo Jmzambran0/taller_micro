@@ -2,6 +2,7 @@ const ESTUDIANTE_ENDPOINT = "http://127.0.0.1:8000/api/appEstudiante";
 const NOTA_ENDPOINT = "http://127.0.0.1:8000/api/appNota";
 const table = document.getElementById("estudiantes");
 const est = document.getElementById("estadisticas");
+const estTitulo = document.getElementById("estTitulo");
 
 let aprobados = 0;
 let noAprobados = 0;
@@ -30,7 +31,7 @@ const getNotaDef = async (cod) => {
     };
   } catch (error) {
     console.error("Error al obtener las notas:", error);
-    return "0";
+    return "Error";
   }
 };
 
@@ -43,12 +44,12 @@ const getEstado = (notaDef) => {
     return "No aprobado";
   } else {
     sinNotas += 1;
-    return "Indefinido";
+    return "Sin notas";
   };
 };
 
 const mostrarEst = () => {
-  est.innerHTML = ""; 
+  estTitulo.textContent = "Resumen del listado"; 
   const apP = document.createElement("p");
   const nApP = document.createElement("p");
   const sinNP= document.createElement("p");
@@ -56,10 +57,6 @@ const mostrarEst = () => {
   apP.id = "aprobados";
   nApP.id = "noAprobados";
   sinNP.id = "sinNotas";
-
-  apP.className = "estEstilo";
-  nApP.className = "estEstilo";
-  sinNP.className = "estEstilo";
 
   apP.textContent = "Aprobados: " + aprobados.toString();
   nApP.textContent = "No aprobados: " + noAprobados.toString();
@@ -79,7 +76,7 @@ const leerEstudiantes = async () => {
     const estudiantes = body.data;
     const tbody = table.getElementsByTagName("tbody")[0];
     tbody.innerHTML = "";
-    est.innerHTML = "Cargando listado de estudiantes...";
+    estTitulo.textContent = "Cargando listado de estudiantes...";
 
     for (const estudiante of estudiantes) {
       const tr = document.createElement("tr");
@@ -97,11 +94,22 @@ const leerEstudiantes = async () => {
       const estadoTd = document.createElement("td");
       estadoTd.textContent = getEstado(parseFloat(defTd.textContent));
 
+      const verNotasTd = document.createElement("td");
+      const btnVerNotas = document.createElement("button");
+      btnVerNotas.textContent = "Ver Notas";
+      btnVerNotas.className = "btn btn-ver-notas";
+      btnVerNotas.addEventListener("click", () => {
+        window.location.href = `notas.html?codigo=${estudiante.cod}`;
+      });
+
+      verNotasTd.appendChild(btnVerNotas);
+
       tr.appendChild(codTd);
       tr.appendChild(nombreTd);
       tr.appendChild(emailTd);
       tr.appendChild(defTd);
       tr.appendChild(estadoTd);
+      tr.appendChild(verNotasTd);
       tbody.appendChild(tr);
     }
     mostrarEst();
