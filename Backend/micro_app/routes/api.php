@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/notas/estudiante/{codEstudiante}', [NotaController::class, 'notasPorEstudiante']);
+//Route::get('/notas/estudiante/{codEstudiante}', [NotaController::class, 'notasPorEstudiante']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -29,7 +29,7 @@ Route::prefix("appNota")->group(function(){
         Route::post("nota", "store");
         Route::put("nota/{codEstudiante}", "update");
         Route::delete("nota/{codEstudiante}", "destroy");
-
+        Route::get('notas/estudiante/{codEstudiante}', [NotaController::class, 'notasPorEstudiante']);
     });
  
 });

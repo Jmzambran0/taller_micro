@@ -13,7 +13,7 @@ Content-Type: 'application/json'
 
 
 ### Consultar un estudiante con todas las notas
-GET http://127.0.0.1:8000/api/notas/estudiante/700
+GET http://127.0.0.1:8000/api/appNota/notas/estudiante/1234
 
 ### Actualizar una nota del estudiante
 PUT http://127.0.0.1:8000/api/appNota/nota/20
