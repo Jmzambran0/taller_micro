@@ -10,18 +10,58 @@
     rel="stylesheet"/>
 </head>
 <body>
-  <h1>Notas del Estudiante</h1>
-  <div id="info-estudiante"></div>
-  <table id="tabla-notas">
-    <thead>
-      <tr>
-        <th>Actividad</th>
-        <th>Nota</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+    <div>
+        <button>Eliminar estudiante</button>
+        <button>Modificar informacion</button>
+    </div>
+    <h1>Notas del Estudiante</h1>
+    <div id="info-estudiante"></div>
+    <table id="tabla-notas">
+      <thead>
+        <tr>
+          <th>Actividad</th>
+          <th>Nota</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="nueva-nota">Agregar nota</button>
+
+    <div id="avisoBG">
+        <div>
+            <form action="notasConfirm.html" method="get">
+                <input hidden type="number" name="notaId" id="notaIdinp">
+                <input hidden type="number" name="codigo" id="codInp">
+                <div>
+                    <label>Nombre de la actividad:</label>
+                    <input type="text" name="actividad" id="actInp" required>
+                </div>
+                <div>
+                    <label>Calificacion:</label>
+                    <input type="number" name="nota" id="calInp" step="0.01" required>
+                </div>
+                <button type="submit">Guardar</button>
+            </form>
+            <button id="aviso-close">Cerrar</button>
+        </div>
+        <div id="aviso">
+            <div id="modal">
+                <p></p>
+                <div>
+                    <button id="confirm">Confirmar</button>
+                    <button id="cancel">Cancelar</button>
+                </div>
+            </div>
+            <div id="msg">
+                <p></p>
+                <div>
+                    <button id="okBtn">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
   <script src="js/notas.js"></script>
 </body>
 </html>

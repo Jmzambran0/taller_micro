@@ -89,7 +89,8 @@ const leerEstudiantes = async () => {
       emailTd.textContent = estudiante.email;
 
       const defTd = document.createElement("td");
-      defTd.textContent = await getNotaDef(estudiante.cod);
+      const definitiva = await getNotaDef(estudiante.cod);
+      defTd.textContent = definitiva;
 
       const estadoTd = document.createElement("td");
       estadoTd.textContent = getEstado(parseFloat(defTd.textContent));
@@ -99,7 +100,7 @@ const leerEstudiantes = async () => {
       btnVerNotas.textContent = "Ver Notas";
       btnVerNotas.className = "btn btn-ver-notas";
       btnVerNotas.addEventListener("click", () => {
-        window.location.href = `notas.html?codigo=${estudiante.cod}`;
+        window.location.href = `notas.html?codigo=${estudiante.cod}&nombre=${estudiante.nombres}&email=${estudiante.email}`;
       });
 
       verNotasTd.appendChild(btnVerNotas);
