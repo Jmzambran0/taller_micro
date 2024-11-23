@@ -120,7 +120,7 @@ form button:hover {
 
  /* --- aviso flotante */
 
- #avisoBG {
+#avisoBG {
     display: none;
     background-color: rgba(0, 0, 0, 0.6);
     width: 100%;
@@ -175,3 +175,20 @@ form button:hover {
 #confirmDiv {
   width: 245px;
 }
+
+
+
+.btn-volver {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-volver:hover {
+  background-color: #0056b3;
+}
+

@@ -349,3 +349,5 @@ cancelBtn.addEventListener("click", () => {
 // --- funciones de inicio --
 closeAviseAction();
 cargarNotas();
+
+// filtro
