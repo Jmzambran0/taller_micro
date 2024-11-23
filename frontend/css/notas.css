@@ -104,14 +104,14 @@ form button:hover {
 
 #aviso-close{
     position: fixed;
-    left: calc(50% - 75px);
-    top: calc(50% + 130px);
+    left: calc(50% + 140px);
+    top: calc(50% - 130px);
 
-    width: 150px;
+    width: 65px;
     background-color: #d30000;
     color: white;
     padding: 14px;
-    font-size: 16px;
+    font-size: 25px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -128,4 +128,50 @@ form button:hover {
     position: fixed;
     top: 0;
     left: 0;
+}
+
+#aviso-confirmacion {
+  background-color: #ededed;
+  border-radius: 10px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.6);
+  width: 600px;
+  position: fixed;
+  left: calc(50% - 300px);
+  top: calc(50% - 60px);
+
+  p {
+      padding: 15px;
+      font-size: 16px;
+      text-align: center;
+  }
+
+  div {
+    display: none;
+    margin: auto;
+  }
+}
+
+#aviso-confirmacion div button {
+  background-color: #7f7f7f;
+  color: white;
+  width: 100px;
+  font-size: 16px;
+  margin: 0 10px 20px 10px;
+  padding: 10px;
+  border: 0px;
+  border-radius: 5px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.6);
+  transition: background 0.3s ease;
+}
+
+#aviso-confirmacion div button:hover {
+  background-color: #424242;
+}
+
+#okDiv {
+  width: 100px;
+}
+
+#confirmDiv {
+  width: 245px;
 }

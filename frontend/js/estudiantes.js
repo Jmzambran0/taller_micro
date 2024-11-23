@@ -25,7 +25,7 @@ const getNotaDef = async (cod) => {
     });
     if (divisor > 0) {
       const resultado = acumulado / divisor;
-      return resultado.toString();
+      return resultado.toFixed(2);
     } else {
       return "Sin notas";
     };
@@ -97,7 +97,7 @@ const leerEstudiantes = async () => {
 
       const verNotasTd = document.createElement("td");
       const btnVerNotas = document.createElement("button");
-      btnVerNotas.textContent = "Ver Notas";
+      btnVerNotas.textContent = "Ver";
       btnVerNotas.className = "btn btn-ver-notas";
       btnVerNotas.addEventListener("click", () => {
         window.location.href = `notas.html?codigo=${estudiante.cod}&nombre=${estudiante.nombres}&email=${estudiante.email}`;
