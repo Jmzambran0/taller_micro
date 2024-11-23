@@ -22,11 +22,32 @@
         </thead>
         <tbody></tbody>
     </table>
-    <button id="nuevo-est">Agregar estudiante</button>
+    <button id="nuevo-est">Agregar un estudiante</button>
     <br>
     <section id="estadisticas">
         <h2 id="estTitulo"></h2>
     </section>
+
+    <div id="avisoBG">
+        <form name="newEstForm">
+            <div>
+                <label>Codigo de estudiante:</label>
+                <input type="number" name="codigo" required>
+            </div>
+            <div>
+                <label>Nombre del estudiante:</label>
+                <input type="text" name="estudiante" required>
+            </div>
+            <div>
+                <label>Correo electronico:</label>
+                <input type="email" name="email" required>
+            </div>
+            <button type="submit">Agregar</button>
+            <p id="newEstMsg"></p>
+        </form>
+
+        <button id="aviso-close">✖</button>
+    </div>
     <script src="js/estudiantes.js"></script>
 </body>
 </html>

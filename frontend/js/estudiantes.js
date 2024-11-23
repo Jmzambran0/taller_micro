@@ -4,9 +4,18 @@ const table = document.getElementById("estudiantes");
 const est = document.getElementById("estadisticas");
 const estTitulo = document.getElementById("estTitulo");
 
+const aviseBG = document.getElementById("avisoBG");
+const newEstForm = document.forms["newEstForm"];
+const newEstMsg = document.getElementById("newEstMsg");
+
+const newEstBtn = document.getElementById("nuevo-est");
+const closeAvisoBtn = document.getElementById("aviso-close");
+
 let aprobados = 0;
 let noAprobados = 0;
 let sinNotas = 0;
+
+let estudiantes = [];
 
 // ------ funciones para la tabla -----------
 
@@ -73,7 +82,7 @@ const leerEstudiantes = async () => {
   try {
     const response = await fetch(ESTUDIANTE_ENDPOINT + "/estudiantes");
     const body = await response.json();
-    const estudiantes = body.data;
+    estudiantes = body.data;
     const tbody = table.getElementsByTagName("tbody")[0];
     tbody.innerHTML = "";
     estTitulo.textContent = "Cargando listado de estudiantes...";
@@ -118,5 +127,67 @@ const leerEstudiantes = async () => {
     console.error("Error al leer los estudiantes:", error);
   }
 };
+
+// --------------- Nuevo estudiante ---------------------------------------------------
+
+newEstForm.addEventListener("submit", (ev) => {
+  ev.preventDefault();
+  newEstMsg.style.display = "none";
+
+  const nuevoCodigo = newEstForm["codigo"].value;
+  const nuevoEmail = newEstForm["email"].value;
+
+  let codigoExiste = false;
+  let correoExiste = false;
+
+  estudiantes.forEach((estudiante) => {
+    if (estudiante.cod == nuevoCodigo) {
+      codigoExiste = true;
+    }
+    if (estudiante.email == nuevoEmail) {
+      correoExiste = true;
+    }
+  });
+
+  if (codigoExiste) {
+    newEstMsg.style.display = "block";
+    newEstMsg.textContent = "El código de estudiante ya existe.";
+  } else if (correoExiste) {
+    newEstMsg.style.display = "block";
+    newEstMsg.textContent = "El correo ya existe.";
+  } else {
+    newEstMsg.style.backgroundColor = "#86dfff";
+    newEstMsg.style.color = "#0053bd";
+    newEstMsg.style.display = "block";
+    newEstMsg.textContent = "Cargando datos...";
+
+    fetch(ESTUDIANTE_ENDPOINT + "/estudiante", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cod: nuevoCodigo,
+        nombres: newEstForm["estudiante"].value,
+        email: nuevoEmail,
+      }),
+    })
+      .then((response) => response.json())
+      .then((body) => {
+        window.location.href = "";
+      }
+    );
+  }
+});
+
+// ------ Botones -------
+
+newEstBtn.addEventListener("click", () => {
+  aviseBG.style.display = 'block';
+});
+
+closeAvisoBtn.addEventListener("click", () => {
+  aviseBG.style.display = 'none';
+});
 
 leerEstudiantes();
