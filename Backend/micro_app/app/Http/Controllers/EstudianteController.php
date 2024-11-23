@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
 use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class EstudianteController extends Controller
@@ -23,14 +25,18 @@ class EstudianteController extends Controller
      */
     public function store(Request $request)
     {
-        $dataBody = $request->all();
-        $nota = new Estudiante();
-        $nota->cod = $dataBody['cod'];
-        $nota->nombres = $dataBody['nombres'];
-        $nota->email = $dataBody['email'];
-        $nota->save();
-        $data = ["data" => $nota];
-        return response()->json($data, 201);
+        try {
+            $dataBody = $request->all();
+            $estudiante = new Estudiante();
+            $estudiante->cod = $dataBody['cod'];
+            $estudiante->nombres = $dataBody['nombres'];
+            $estudiante->email = $dataBody['email'];
+            $estudiante->save();
+            $data = ["data" => $estudiante];
+            return response()->json($data, 201);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Ocurrio un error al crear el estudiante'], 500);
+        }
     }
 
     /**
@@ -51,16 +57,20 @@ class EstudianteController extends Controller
      */
     public function update(Request $request, string $cod)
     {
-        $dataBody = $request->all();
-        $nota = Estudiante::find($cod);
-        if (empty($nota)) {
-            return response()->json(['msg' => "error"], 404);
+        try {
+            $dataBody = $request->all();
+            $estudiante = Estudiante::findOrFail($cod);
+            $estudiante->cod = $dataBody['cod'];
+            $estudiante->nombres = $dataBody['nombres'];
+            $estudiante->email = $dataBody['email'];
+            $estudiante->save();
+            $data = ["data" => $estudiante];
+            return response()->json($data, 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Estudiante no encontrado'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Ocurrio un error al actualizar el estudiante'], 500);
         }
-        $nota->nombres = $dataBody['nombres'];
-        $nota->email = $dataBody['email'];
-        $nota->save();
-        $data = ["data" => $nota];
-        return response()->json($data, 200);
     }
 
     /**
