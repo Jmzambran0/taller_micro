@@ -8,6 +8,24 @@
 </head>
 <body>
     <h1>Lista de estudiantes</h1>
+        <br>
+        <section id="filtros-section">
+            <h2>Filtrar Estudiante</h2>
+            <div id="filtros">
+                <input type="text" id="codigoFiltro" placeholder="Código">
+                <input type="text" id="nombreFiltro" placeholder="Nombre">
+                <input type="text" id="emailFiltro" placeholder="Email">
+                <select id="estadoFiltro">
+                    <option value="">Todos</option>
+                    <option value="Aprobado">Aprobado</option>
+                    <option value="No aprobado">No aprobado</option>
+                    <option value="Sin notas">Sin notas</option>
+                </select>
+                <input type="number" id="notaMinFiltro" placeholder="Nota mínima" step="0.1" min="0" max="5">
+                <input type="number" id="notaMaxFiltro" placeholder="Nota máxima" step="0.1" min="0" max="5">
+                <button id="buscarEst">Buscar</button>
+            </div>
+        </section>
     <br>
     <table id="estudiantes">
         <thead>
@@ -24,8 +42,9 @@
     </table>
     <button id="nuevo-est">Agregar un estudiante</button>
     <br>
-    <section id="estadisticas">
+    <section>
         <h2 id="estTitulo"></h2>
+        <div id="estadisticas"></div>
     </section>
 
     <div id="avisoBG">

@@ -16,6 +16,8 @@
         <button id="modEstBtn">Modificar informacion</button>
     </div>
     <div id="info-estudiante"></div>
+    
+
     <table id="tabla-notas">
       <thead>
         <tr>
@@ -35,7 +37,7 @@
 
     <div id="avisoBG">
         <div id="formsDiv">
-            <!-- fomulario de notas -->
+            <!-- formulario de notas -->
             <form name="notasForm">
                 <input hidden type="number" name="notaId" id="notaIdinp">
                 <input hidden type="number" name="codigo" id="codInp">
@@ -45,7 +47,7 @@
                 </div>
                 <div>
                     <label>Calificacion:</label>
-                    <input type="number" name="nota" id="calInp" step="0.01" required>
+                    <input type="number" name="nota" id="calInp" step="0.01" min="0" max="5" required>
                 </div>
                 <button type="submit">Guardar</button>
             </form>
