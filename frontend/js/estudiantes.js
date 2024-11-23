@@ -215,6 +215,14 @@ newEstForm.addEventListener("submit", (ev) => {
     }
   });
 
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@test\.com$/;
+
+  if (!emailRegex.test(nuevoEmail)) {
+    newEstMsg.style.display = "block";
+    newEstMsg.textContent = "El correo debe tener el formato '@test.com'.";
+    return;
+  }
+
   if (codigoExiste) {
     newEstMsg.style.display = "block";
     newEstMsg.textContent = "El código de estudiante ya existe.";

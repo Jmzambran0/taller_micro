@@ -16,11 +16,11 @@ Content-Type: 'application/json'
 GET http://127.0.0.1:8000/api/appEstudiante/estudiante/100
 
 ### Actualizar a un Estudiantes
-PUT http://127.0.0.1:8000/api/appEstudiante/estudiante/888
+PUT http://127.0.0.1:8000/api/appEstudiante/estudiante/1234
 Content-Type: "application/json"
 
 {
-    "cod": "700",
+    //"cod": "700",
     "nombres": "fabi",
     "email": "fabi@gmail.com"
 }

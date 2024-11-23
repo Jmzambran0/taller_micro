@@ -10,30 +10,50 @@
     rel="stylesheet"/>
 </head>
 <body>
-    <h1>Notas del Estudiante</h1>
-    <div id="est-botones">
-        <button id="deleteEstBtn">Eliminar estudiante</button>
-        <button id="modEstBtn">Modificar informacion</button>
-    </div>
-    <div id="info-estudiante"></div>
-    
+    <header>
+        <h1>Notas del estudiante</h1>
+    </header>
+    <br><br>
+    <main>
+        <div id="infoEstGrid">
+            <h2>Informacion del estudiante</h2>
+            <div id="info-estudiante"></div>
+            <div id="est-botones">
+                <button id="deleteEstBtn">Eliminar estudiante</button>
+                <button id="modEstBtn">Modificar informacion</button>
+            </div>
+        </div>
+        <div id="filterGrid">
+            <section id="filtros-section">
+                <h2>Filtrar notas</h2>
+                <div id="filtros">
+                    <input type="text" id="actividadFiltro" placeholder="Actividad">
+                    <input type="number" id="notaMinFiltro" placeholder="Nota mínima" step="0.1" min="0" max="5">
+                    <input type="number" id="notaMaxFiltro" placeholder="Nota máxima" step="0.1" min="0" max="5">
+                    <button id="buscarEst">Buscar</button>
+                </div>
+            </section>
+        </div>
+        <div id="tabGrid">
+            <h1>Registro de notas</h1>
 
-    <table id="tabla-notas">
-      <thead>
-        <tr>
-          <th>Actividad</th>
-          <th>Nota</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <button id="nueva-nota">Agregar nota</button>
-    <br>
-    <section>
-        <h2 id="estTitulo"></h2>
-        <div id="estadisticas"></div>
-    </section>
+            <table id="tabla-notas">
+              <thead>
+                <tr>
+                  <th>Actividad</th>
+                  <th>Nota</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <button id="nueva-nota">Agregar nota</button>
+        </div>
+        <section id="estGrid">
+            <h2 id="estTitulo"></h2>
+            <div id="estadisticas"></div>
+        </section>
+    </main>
 
     <div id="avisoBG">
         <div id="formsDiv">
@@ -54,10 +74,6 @@
 
             <!-- modificar informacion del estudiante -->
             <form name="estInfoForm">
-                <div>
-                    <label>Codigo de estudiante:</label>
-                    <input type="number" name="codigo" id="codInp2" required>
-                </div>
                 <div>
                     <label>Nombre del estudiante:</label>
                     <input type="text" name="estudiante" id="estInp" required>

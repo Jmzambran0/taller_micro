@@ -34,6 +34,8 @@ const estTitulo = document.getElementById("estTitulo");
 
 // ------ funciones para la tabla -------
 
+let notas = [];
+
 let totalNotas = 0;
 
 let notasAprobadas = 0;
@@ -71,7 +73,6 @@ const estInfoFormAction = () => {
   notasForm.style.display = 'none';
   estInfoForm.style.display = 'block';
 
-  estInfoForm["codigo"].value = codigo;
   estInfoForm["estudiante"].value = nombre;
   estInfoForm["email"].value = email;
 
@@ -166,61 +167,112 @@ const mostrarEst = () => {
   est.appendChild(nApP);
 };
 
-const mostrarInfo = (infoEstudiante, resultado) => {
-    const nombreDiv = document.createElement("p");
-    nombreDiv.innerHTML = `<b>Nombre del estudiante:</b> ${nombre}`;
+const mostrarInfo = (resultado) => {
+  const infoEstudiante = document.getElementById("info-estudiante");
+  infoEstudiante.innerHTML = "";
 
-    const codigoDiv = document.createElement("p");
-    codigoDiv.innerHTML = `<b>Código:</b> ${codigo}`;
+  const nombreDiv = document.createElement("p");
+  nombreDiv.innerHTML = `<b>Nombre del estudiante:</b> ${nombre}`;
 
-    const emailDiv = document.createElement("p");
-    emailDiv.innerHTML = `<b>Correo electronico:</b> ${email}`;
+  const codigoDiv = document.createElement("p");
+  codigoDiv.innerHTML = `<b>Código:</b> ${codigo}`;
 
-    const defDiv = document.createElement("p");
-    defDiv.innerHTML = `<b>Nota definitiva:</b> ${resultado}`;
+  const emailDiv = document.createElement("p");
+  emailDiv.innerHTML = `<b>Correo electronico:</b> ${email}`;
 
-    const estadoDiv = document.createElement("p");
-    estadoDiv.innerHTML = `<b>Estado:</b> ${getEstado(resultado)}`;
+  const defDiv = document.createElement("p");
+  defDiv.innerHTML = `<b>Nota definitiva:</b> ${resultado}`;
 
-    infoEstudiante.appendChild(nombreDiv);
-    infoEstudiante.appendChild(codigoDiv);
-    infoEstudiante.appendChild(emailDiv);
-    infoEstudiante.appendChild(defDiv);
-    infoEstudiante.appendChild(estadoDiv);
+  const estadoDiv = document.createElement("p");
+  estadoDiv.innerHTML = `<b>Estado:</b> ${getEstado(resultado)}`;
+
+  infoEstudiante.appendChild(nombreDiv);
+  infoEstudiante.appendChild(codigoDiv);
+  infoEstudiante.appendChild(emailDiv);
+  infoEstudiante.appendChild(defDiv);
+  infoEstudiante.appendChild(estadoDiv);
 }
 
 // ------ función de la tabla de notas -------
 
-const cargarNotas = async () => {
-  try {
-    const infoEstudiante = document.getElementById("info-estudiante");
-    const tablaNotas = document.getElementById("tabla-notas").getElementsByTagName("tbody")[0];
-    tablaNotas.innerHTML = "";
-    infoEstudiante.innerHTML = "";
-    est.innerHTML = "";
-    estTitulo.textContent = "Cargando notas...";
+const mostrarAllNotas = async () => {
+  const tablaNotas = document.getElementById("tabla-notas").getElementsByTagName("tbody")[0];
+  tablaNotas.innerHTML = "";
+  est.innerHTML = "";
+  estTitulo.textContent = "Cargando notas...";
 
-    const response = await fetch(NOTA_ENDPOINT + `/notas/estudiante/${codigo}`);
-    const body = await response.json();
-    const notas = body.data;
+  let acumulado = 0;
+  totalNotas = 0;
+  notasAprobadas = 0;
+  notasReprobadas = 0;
 
-    let acumulado = 0;
-    totalNotas = 0;
-    notasAprobadas = 0;
-    notasReprobadas = 0;
+  notas.forEach((nota) => {
+    const tr = document.createElement("tr");
 
-    notas.forEach((nota) => {
+    const actividadTd = document.createElement("td");
+    actividadTd.textContent = nota.actividad;
+
+    const notaTd = document.createElement("td");
+    notaTd.textContent = nota.nota;
+    colorNota(notaTd, nota.nota);
+
+    acumulado += parseFloat(nota.nota);
+    totalNotas += 1;
+
+    const accionesTd = document.createElement("td");
+
+    const btnEliminar = document.createElement("button");
+    btnEliminar.innerHTML = '<i class="fas fa-trash"></i>';
+    btnEliminar.className = "btn btn-eliminar";
+    btnEliminar.addEventListener("click", () => { //Eliminar nota
+      confirmAviseAction(true, nota.actividad, nota.id);
+    });
+
+    const btnModificar = document.createElement("button");
+    btnModificar.innerHTML = '<i class="fas fa-edit"></i>';
+    btnModificar.className = "btn btn-modificar";
+    btnModificar.addEventListener("click", () => { //Modificar nota
+      notasFormAction(nota.id, nota.actividad, nota.nota);
+    });
+
+    accionesTd.appendChild(btnEliminar);
+    accionesTd.appendChild(btnModificar);
+
+    tr.appendChild(actividadTd);
+    tr.appendChild(notaTd);
+    tr.appendChild(accionesTd);
+    tablaNotas.appendChild(tr);
+  });
+
+  const resultado = acumulado / totalNotas;
+  mostrarInfo(resultado.toFixed(2));
+  mostrarEst();
+};
+
+//=== filtro ===
+
+const filtrarNotas = async (actividad, notaMin, notaMax) => {
+  const tablaNotas = document.getElementById("tabla-notas").getElementsByTagName("tbody")[0];
+  tablaNotas.innerHTML = "";
+  est.innerHTML = "";
+
+  totalNotas = 0;
+  notasAprobadas = 0;
+  notasReprobadas = 0;
+
+  for (const nota of notas) {
+    if (
+      (actividad === "" || nota.actividad.toString() === actividad) &&
+      (nota.nota >= notaMin && nota.nota <= notaMax)
+    ) {
       const tr = document.createElement("tr");
 
       const actividadTd = document.createElement("td");
       actividadTd.textContent = nota.actividad;
-
+  
       const notaTd = document.createElement("td");
       notaTd.textContent = nota.nota;
       colorNota(notaTd, nota.nota);
-
-      acumulado += parseFloat(nota.nota);
-      totalNotas += 1;
 
       const accionesTd = document.createElement("td");
 
@@ -230,7 +282,7 @@ const cargarNotas = async () => {
       btnEliminar.addEventListener("click", () => { //Eliminar nota
         confirmAviseAction(true, nota.actividad, nota.id);
       });
-
+  
       const btnModificar = document.createElement("button");
       btnModificar.innerHTML = '<i class="fas fa-edit"></i>';
       btnModificar.className = "btn btn-modificar";
@@ -240,19 +292,14 @@ const cargarNotas = async () => {
 
       accionesTd.appendChild(btnEliminar);
       accionesTd.appendChild(btnModificar);
-
+  
       tr.appendChild(actividadTd);
       tr.appendChild(notaTd);
       tr.appendChild(accionesTd);
       tablaNotas.appendChild(tr);
-    });
-
-    const resultado = acumulado / totalNotas;
-    mostrarInfo(infoEstudiante, resultado.toFixed(2));
-    mostrarEst();
-  } catch (error) {
-    console.error("Error al cargar las notas:", error);
+    }
   }
+  mostrarEst();
 };
 
 //------------ formularios ================================================================
@@ -273,8 +320,7 @@ notasForm.addEventListener("submit", (ev) => {
     })
       .then((response) => response.json())
       .then((body) => {
-        cargarNotas();
-        closeAviseAction();
+        getAllNotas();
       }
     );
   } else {
@@ -290,34 +336,72 @@ notasForm.addEventListener("submit", (ev) => {
     })
       .then((response) => response.json())
       .then((body) => {
-        cargarNotas();
-        closeAviseAction();
+        getAllNotas();
       }
     );
   }
 });
 
 estInfoForm.addEventListener("submit", (ev) => {
-  estinfoMsg.textContent = "";
+  estinfoMsg.style.display = "none";
   ev.preventDefault();
-  if (estInfoForm["codigo"].value == codigo && estInfoForm["estudiante"].value == nombre && estInfoForm["email"].value == email) {
+
+  if (estInfoForm["estudiante"].value == nombre && 
+    estInfoForm["email"].value == email) 
+    {
+      estinfoMsg.style.display = "block";
     estinfoMsg.textContent = "No hubo cambios en los datos ingresados.";
   } else {
+    const nuevoEmail = estInfoForm["email"].value;
+
+    let correoExiste = false;
+
     fetch(ESTUDIANTE_ENDPOINT + "/estudiantes")
+    .then((response) => response.json())
+    .then((body) => {
+      const allEstudiantes = body.data;
+
+      allEstudiantes.forEach((estudiante) => {
+        if (estudiante.email == nuevoEmail && nuevoEmail != email) {
+          correoExiste = true;
+        }
+      });
+
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@test\.com$/;
+
+  if (!emailRegex.test(nuevoEmail)) {
+    estinfoMsg.style.display = "block";
+    estinfoMsg.textContent = "El correo debe tener el formato '@test.com'.";
+    return;
+  }
+
+  if (correoExiste) {
+    estinfoMsg.style.display = "block";
+    estinfoMsg.textContent = "El correo ya existe.";
+  } else {
+    estinfoMsg.style.backgroundColor = "#86dfff";
+    estinfoMsg.style.color = "#0053bd";
+    estinfoMsg.style.display = "block";
+    estinfoMsg.textContent = "Cargando datos...";
+
+    fetch(ESTUDIANTE_ENDPOINT + "/estudiante/" + codigo, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nombres: estInfoForm["estudiante"].value,
+        email: nuevoEmail,
+      }),
+    })
       .then((response) => response.json())
       .then((body) => {
-        const allEstudiantes = body.data;
-
-        allEstudiantes.forEach((estudiante) => {
-          if (estInfoForm["codigo"].value == estudiante.cod || estInfoForm["email"].value == estudiante.email) {
-            estinfoMsg.textContent = "Los datos ingresados ya existen.";
-          } else {
-            estinfoMsg.textContent = "Cambios exitosos"; //test, falta funcion para cargar cambios
-          }
-        })
+        window.location.href = "inicio.html";
       }
     );
-  };
+  } 
+  });
+  }
 });
 
 // ------ Botones -------
@@ -346,8 +430,50 @@ cancelBtn.addEventListener("click", () => {
   closeAviseAction();
 });
 
-// --- funciones de inicio --
-closeAviseAction();
-cargarNotas();
+// ---- Filtro notas ----
 
-// filtro
+document.getElementById("buscarEst").addEventListener("click", async () => {
+  const actividad = document.getElementById("actividadFiltro").value.trim().toLowerCase();
+  const notaMin = parseFloat(document.getElementById("notaMinFiltro").value) || 0;
+  const notaMax = parseFloat(document.getElementById("notaMaxFiltro").value) || 5;
+
+  if (actividad === "" && isNaN(notaMin) && isNaN(notaMax)) {
+      await mostrarAllNotas();
+  } else {
+      await filtrarNotas(actividad, notaMin, notaMax);
+      mostrarBotonVolver();
+  }
+});
+
+const mostrarBotonVolver = () => {
+  const botonVolver = document.getElementById("botonVolver");
+  if (!botonVolver) {
+      const nuevoBoton = document.createElement("button");
+      nuevoBoton.id = "botonVolver";
+      nuevoBoton.textContent = "Ver Todas las Notas";
+      nuevoBoton.className = "btn btn-volver";
+      nuevoBoton.addEventListener("click", async () => {
+        await mostrarAllNotas();
+        nuevoBoton.remove();
+      });
+      document.getElementById("filtros").appendChild(nuevoBoton);
+  }
+};
+
+//===== Obtener datos ===========
+
+const getAllNotas = async () => {
+  try {
+    const response = await fetch(NOTA_ENDPOINT + `/notas/estudiante/${codigo}`);
+    const body = await response.json();
+    notas = body.data;
+
+    closeAviseAction();
+    mostrarAllNotas();
+
+  } catch (error) {
+    console.error("Error al cargar las notas:", error);
+  }
+}
+
+getAllNotas();

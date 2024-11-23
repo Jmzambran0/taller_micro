@@ -59,8 +59,8 @@ class EstudianteController extends Controller
     {
         try {
             $dataBody = $request->all();
-            $estudiante = Estudiante::findOrFail($cod);
-            $estudiante->cod = $dataBody['cod'];
+            $estudiante = Estudiante::find($cod);
+            //$estudiante->cod = $dataBody['cod'];
             $estudiante->nombres = $dataBody['nombres'];
             $estudiante->email = $dataBody['email'];
             $estudiante->save();
